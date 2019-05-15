@@ -261,10 +261,6 @@ from hardware real packages, ```0.0.0.0``` means that server is visible from out
 - PAYLOAD_FILE_PATH - path to a file where payload is going to be written
 - WS_EMITTING_TIME_STEP - time step of device hosting sink according to which payload is send to the back-end
 server
-- SINGLE_MEASURE_SEPARATION_TIME_STEP - time step according to which sink is requesting measurements from connected devices pairs
-set in sink devices permutation table
-- SINK_BUFFER_RELEASE_TIME_STEP - time step according to which sink is sending buffered measurements to sink hosting device
-and clearing the buffer
 - GLOBAL_BUFFER_SIZE - sink measurements buffer size
 - NOISE - percentage of noise probability that can be applied to each measurements given as integer from 0 to 100. 
 Or when given as array of two dimensional arrays of probabilities distribution, then index zero reflects number of 
@@ -290,14 +286,16 @@ $ python3 system_load.py <path_to_collected_load_file.txt>
 ```
  
 ## Version
-git 
+ 
 This is version 0.0.1
 
 ## Authors
 
-BlastLab - IndoorNavi: B Lenart, K Gebert, A. Ziolkowska, M. Pastwa, A. Rosner, M. Bogucki
+Bartosz Lenart
 
 ## License
+
+MIT
 
 ## Acknowledgments
 
