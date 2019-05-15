@@ -1,0 +1,7 @@
+wheel
+scipy
+websockets
+asyncio
+matplotlib
+mysql-connector-python-rf
+teamcity-messages
