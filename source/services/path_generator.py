@@ -13,14 +13,15 @@ def generate_path(points, speed, emiting_time_stamp):
         else:
             destination = np.array([point['x'], point['y']])
             distance = np.linalg.norm(destination - start)
-            local_vector = (destination - start) / distance * speed * emiting_time_stamp
+            local_vector = (destination - start) / distance * speed * emiting_time_stamp * 100
             coord = deepcopy(start)
             coordinates.append(_coord_parse(coord))
             while _is_in_range(coord, start, destination):
                 coord[0] += local_vector[0]
                 coord[1] += local_vector[1]
-                coordinates.append(coord_parse(coord))
+                coordinates.append(_coord_parse(coord))
             start = deepcopy(destination)
+            print(distance / len(coordinates))
     print(len(coordinates))
     return coordinates
 
