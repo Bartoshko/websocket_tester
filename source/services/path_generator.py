@@ -21,8 +21,6 @@ def generate_path(points, speed, emiting_time_stamp):
                 coord[1] += local_vector[1]
                 coordinates.append(_coord_parse(coord))
             start = deepcopy(destination)
-            print(distance / len(coordinates))
-    print(len(coordinates))
     return coordinates
 
 
