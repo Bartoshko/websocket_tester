@@ -3,7 +3,7 @@
   "floors": [1],
   "path": {
     "parameters": {
-      "closed": false,
+      "closed": true,
       "speed": 20
     },
     "coordinates": [
@@ -13,13 +13,13 @@
         "z": 0
       },
       {
-        "x": 200,
-        "y": 300,
+        "x": 2000,
+        "y": 3000,
         "z": 0
       },
       {
-        "x": 350,
-        "y": 150,
+        "x": 1200,
+        "y": 300,
         "z": 0
       }
     ]

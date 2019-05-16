@@ -3,6 +3,7 @@ import sys
 import matplotlib.pyplot as plt
 from source.services.path_generator import generate_path
 from source.utils.data_setter import get_settings
+from source.settings.configurations import WS_EMITTING_TIME_STEP_IN_SECONDS
 
 
 
@@ -25,10 +26,7 @@ def plot_path():
         right_coordinates = list(coordinates)
         right_coordinates.reverse()
         coordinates += right_coordinates[1:len(right_coordinates)]
-    print(coordinates)
-    path = generate_path(coordinates, speed)
-    for i, point in enumerate(path):
-        print('number: {} point: {}'.format(i, point))
+    path = generate_path(coordinates, speed, WS_EMITTING_TIME_STEP_IN_SECONDS)
     x = []
     y = []
     for coord in path:
