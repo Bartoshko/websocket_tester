@@ -114,7 +114,8 @@ def evaluate_parameters():
             start_stress_test(DEVICES_CONFIGURATION)
         else:
             a = DEVICES_CONFIGURATION['sinks']
-            b = DEVICES_CONFIGURATION['sinks'] * DEVICES_CONFIGURATION['anchors']
+            b = DEVICES_CONFIGURATION['sinks'] * \
+                DEVICES_CONFIGURATION['anchors']
             c = DEVICES_CONFIGURATION['tags']
             print('Emulator will use default configuration for stress testing,' +
                   ' total number of sinks {0}, anchors {1}, tags {2}'

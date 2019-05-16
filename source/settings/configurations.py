@@ -19,7 +19,7 @@ FLOOR_NUMBER_FOR_TEST = 3
 # BACK_END_SOCKET_ADDRESS = "ws://172.16.170.47:90/measures?emulator"
 # BACK_END_SOCKET_ADDRESS = "ws://localhost:90/measures?emulator"
 # BACK_END_SOCKET_ADDRESS = "ws://core:8080/measures?emulator"
-BACK_END_SOCKET_ADDRESS = "ws://192.168.1.10:3001"
+BACK_END_SOCKET_ADDRESS = "ws://localhost:3000/raw"
 
 DB_HASH_FILE_PATH = "source/settings/db_hash.json"
 

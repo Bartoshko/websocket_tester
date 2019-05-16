@@ -202,7 +202,7 @@ Given example:
 
 #### Configuration of server connection, database, hardware parameters
 
-All parameters are set in: 
+All parameters are set in:
 ```source/settings/configuration.py ```
 
 Files looks like this:
@@ -220,7 +220,7 @@ DEVICES_CONFIGURATION = {
     'anchors': 8,
     'tags': 40
 }
-
+ 
 PROBE_TIME = 100
 
 FLOOR_NUMBER_FOR_TEST = 100
@@ -261,6 +261,7 @@ from hardware real packages, ```0.0.0.0``` means that server is visible from out
 - PAYLOAD_FILE_PATH - path to a file where payload is going to be written
 - WS_EMITTING_TIME_STEP - time step of device hosting sink according to which payload is send to the back-end
 server
+
 - GLOBAL_BUFFER_SIZE - sink measurements buffer size
 - NOISE - percentage of noise probability that can be applied to each measurements given as integer from 0 to 100. 
 Or when given as array of two dimensional arrays of probabilities distribution, then index zero reflects number of 

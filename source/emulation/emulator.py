@@ -27,7 +27,7 @@ class Emulator:
     step by step tag on path measurements.
     """
     __ws = websockets
-    # Emmit package with dimensions every given number of second [s]
+    # Emit package with dimensions every given number of second [s]
     __ws_emitting_time_step = WS_EMITTING_TIME_STEP_IN_SECONDS
     __global_buffer_size = GLOBAL_BUFFER_SIZE
     __emulator_can_be_run = True
@@ -74,7 +74,8 @@ class Emulator:
                 dashed_printer('Writing payload with web socket frames in to a file: {}'
                                .format(PAYLOAD_FILE_PATH))
         except ValueError:
-            print('File {} does not exist, data is not written'.format(PAYLOAD_FILE_PATH))
+            print('File {} does not exist, data is not written'.format(
+                PAYLOAD_FILE_PATH))
             # raise Exception('File {} does not exist, data is not written'.format(PAYLOAD_FILE_PATH))
 
     def __init__(self, tags, back_end_socket, number_of_sinks=1):
@@ -92,7 +93,8 @@ class Emulator:
             else:
                 reversed_points = list(tag['coordinates'])
                 reversed_points.reverse()
-                points = tag['coordinates'] + reversed_points[1:len(reversed_points)]
+                points = tag['coordinates'] + \
+                    reversed_points[1:len(reversed_points)]
             tag_id = int(tag['tag_short_id'])
             emulation = {
                 'points': points,
@@ -141,7 +143,8 @@ class Emulator:
         """
         self.__set_active_tags(session_tags, worker)
         asyncio.set_event_loop(loop)
-        loop.run_until_complete(self.__run_async_emitter(emitting_time, worker))
+        loop.run_until_complete(
+            self.__run_async_emitter(emitting_time, worker))
 
     def __set_active_tags(self, session_tags, worker):
         """
@@ -172,11 +175,13 @@ class Emulator:
             floor_indexes_to_del = []
             for anchor in decoded['anchors']:
                 if anchor['floor'] and anchor['floor']['id'] != worker:
-                    floor_indexes_to_del.append(decoded['anchors'].index(anchor))
+                    floor_indexes_to_del.append(
+                        decoded['anchors'].index(anchor))
             for index in floor_indexes_to_del[::-1]:
                 del decoded['anchors'][index]
             if len(decoded['anchors']) == 0:
-                dashed_printer('There is no anchors available on given floor {}.'.format(worker))
+                dashed_printer(
+                    'There is no anchors available on given floor {}.'.format(worker))
             sink_buffer = SinkBuffer(Emulator.set_anchors_location(decoded))
             if type(NOISE) is int:
                 sink_buffer.noise = NOISE
@@ -248,18 +253,21 @@ class Emulator:
                 if len(sink_payload) > 100:
                     sink_payload = sink_payload[0:100]
                 for measurement in sink_payload:
-                    print('t: ', measurement['did1'], ' a: ', measurement['did2'], ' dist : ', measurement['dist'])
+                    print('t: ', measurement['did1'], ' a: ',
+                          measurement['did2'], ' dist : ', measurement['dist'])
                 package = get_devices_list_as_json(sink_payload)
                 time_collecting_stopped = time.time()
                 time.sleep(
                     self.__ws_emitting_time_step - (
-                            time_collecting_stopped - time_collecting_started
+                        time_collecting_stopped - time_collecting_started
                     )
                 )
                 time_collecting_started = time.time()
                 await socket.send(package)
-                dashed_printer('Floors with active tags {}'.format(self.__active_tags))
-                star_enclosed_print('Number of measurements per one package sent: {}'.format(len(sink_payload)))
+                dashed_printer(
+                    'Floors with active tags {}'.format(self.__active_tags))
+                star_enclosed_print(
+                    'Number of measurements per one package sent: {}'.format(len(sink_payload)))
                 payload_start_index += payload_sink_divisor
                 payload_finish_index += payload_sink_divisor
                 if WRITE_PAYLOAD_FRAMES:

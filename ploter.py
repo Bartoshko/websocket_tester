@@ -5,6 +5,7 @@ from source.services.path_generator import generate_path
 from source.utils.data_setter import get_settings
 
 
+
 def plot_path():
     if len(sys.argv) > 1:
         config_file_path = sys.argv[1]
@@ -24,7 +25,10 @@ def plot_path():
         right_coordinates = list(coordinates)
         right_coordinates.reverse()
         coordinates += right_coordinates[1:len(right_coordinates)]
+    print(coordinates)
     path = generate_path(coordinates, speed)
+    for i, point in enumerate(path):
+        print('number: {} point: {}'.format(i, point))
     x = []
     y = []
     for coord in path:
