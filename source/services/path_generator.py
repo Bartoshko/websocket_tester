@@ -29,7 +29,8 @@ def generate_path(points, speed, emiting_time_stamp):
 def _coord_parse(arr_coord):
     return {
         'x': arr_coord[0],
-        'y': arr_coord[1]
+        'y': arr_coord[1],
+        'z': 0
     }
 
 def _is_in_range(point, border_a, border_b):
