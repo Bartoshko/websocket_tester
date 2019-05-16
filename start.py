@@ -4,11 +4,8 @@ from source.emulation.emulator import Emulator
 from source.emulation.emulator import StressEmulator
 from source.services.database_connector import DataBaseConnector
 from source.services.console_printer import dashed_printer
-from source.settings.configurations import BACK_END_SOCKET_ADDRESS
-from source.settings.configurations import PATH_CHECKPOINTS_NUMBER
-from source.settings.configurations import DEVICES_CONFIGURATION
-from source.settings.configurations import DB_HASH_FILE_PATH
-from source.settings.configurations import DB_CONFIGURATION
+from source.settings.configurations import BACK_END_SOCKET_ADDRESS, DEVICES_CONFIGURATION, PATH_CHECKPOINTS_NUMBER
+from source.settings.configurations import DB_CONFIGURATION, WS_EMITTING_TIME_STEP_IN_SECONDS, DB_HASH_FILE_PATH
 from source.utils.data_setter import get_settings
 from source.services.path_generator import generate_path
 
@@ -24,7 +21,7 @@ def start_emulation(config_file_path):
         floor_numbers = path_configuration['floors']
         coordinates = generate_path(
             coordinates_configs,
-            speed)
+            speed, WS_EMITTING_TIME_STEP_IN_SECONDS)
         tag = {
             'closed': path_closed,
             'coordinates': coordinates,
