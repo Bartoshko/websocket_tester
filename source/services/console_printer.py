@@ -11,3 +11,8 @@ def star_enclosed_print(text):
     print(stars)
     print('****  ' + text + '  ****')
     print(stars)
+
+def separation_printer(text):
+    print('   ')
+    print('|  ' + text + '  |')
+    print('   ')

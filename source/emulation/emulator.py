@@ -4,7 +4,7 @@ import time
 import websockets
 from threading import Thread
 from source.services.sink_buffer_imitator import SinkBuffer
-from source.services.console_printer import dashed_printer, star_enclosed_print
+from source.services.console_printer import dashed_printer, star_enclosed_print, separation_printer
 from source.utils.data_setter import get_devices_list_as_json, json_to_object
 from source.settings.configurations import PAYLOAD_FILE_PATH
 from source.settings.configurations import WRITE_PAYLOAD_FRAMES
@@ -247,21 +247,33 @@ class Emulator:
             for _ in range(self.__number_of_sinks):
                 sink_payload = socket_payload[payload_start_index:payload_finish_index]
                 if len(sink_payload) > 100:
-                    sink_payload = sink_payload[0:100]
-                for measurement in sink_payload:
-                    print('t: ', measurement['did1'], ' a: ',
-                          measurement['did2'], ' dist : ', measurement['dist'])
-                package = get_devices_list_as_json(sink_payload)
-                time.sleep(self.__ws_emitting_time_step / self.__number_of_sinks)
-                await socket.send(package)
-                dashed_printer(
+                    sink_payload_length = len(sink_payload)
+                    first_in_iteration = 0
+                    last_in_iteration = 100
+                    while sink_payload_length > 0:
+                        sink_payload_part = sink_payload[first_in_iteration:last_in_iteration]
+                        first_in_iteration = last_in_iteration
+                        sink_payload_length = sink_payload_length - last_in_iteration
+                        last_in_iteration += sink_payload_length if sink_payload_length < 100 else 100
+                        package = get_devices_list_as_json(sink_payload_part)
+                        # self.__print_measurements(sink_payload_part)
+                        star_enclosed_print(
+                            'Number of measurements per one package (sink device) is {} distances'.format(len(sink_payload_part)))
+                        await socket.send(package)
+                else:
+                    package = get_devices_list_as_json(sink_payload)
+                    self.__print_measurements(sink_payload)
+                    star_enclosed_print(
+                        'Number of measurements per one package (sink device) is {} distances'.format(len(sink_payload)))
+                    await socket.send(package)
+                separation_printer(
                     'Floors with active tags {}'.format(self.__active_tags))
                 star_enclosed_print('Frame separation: {} s'
                     .format(self.__ws_emitting_time_step / self.__number_of_sinks))
-                star_enclosed_print(
-                    'Number of measurements per one package (sink device) is {} distances'.format(len(sink_payload)))
                 payload_start_index += payload_sink_divisor
                 payload_finish_index += payload_sink_divisor
+                time.sleep(self.__ws_emitting_time_step /
+                           self.__number_of_sinks)
                 if WRITE_PAYLOAD_FRAMES:
                     payload_size = sys.getsizeof(package)
                     packages_to_write.append({
@@ -313,6 +325,11 @@ class Emulator:
         self.__active_tags[previous_worker].remove(tag_id)
         self.__active_tags[next_worker].append(tag_id)
 
+    def __print_measurements(self, sink_payload):
+        for measurement in sink_payload:
+            print('t: ', measurement['did1'], ' a: ',\
+                measurement['did2'], ' dist : ', measurement['dist'])
+
 
 class StressEmulator(Emulator):
     """
@@ -327,3 +344,4 @@ class StressEmulator(Emulator):
 
     def emit_stress(self, emitting_time):
         self.emit(emitting_time)
+
