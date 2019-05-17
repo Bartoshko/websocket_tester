@@ -250,17 +250,20 @@ class Emulator:
                     sink_payload_length = len(sink_payload)
                     first_in_iteration = 0
                     last_in_iteration = self.__global_buffer_size
-                    while sink_payload_length > 0:
+                    while True:
                         sink_payload_part = sink_payload[first_in_iteration:last_in_iteration]
                         first_in_iteration = last_in_iteration
-                        sink_payload_length = sink_payload_length - last_in_iteration
-                        last_in_iteration += sink_payload_length if sink_payload_length < self.__global_buffer_size \
-                            else self.__global_buffer_size
-                        package = get_devices_list_as_json(sink_payload_part)
-                        # self.__print_measurements(sink_payload_part)
                         star_enclosed_print(
                             'Number of measurements per one package (sink device) is {} distances'.format(len(sink_payload_part)))
+                        package = get_devices_list_as_json(sink_payload_part)
+                        # self.__print_measurements(sink_payload_part)
                         await socket.send(package)
+                        if last_in_iteration == sink_payload_length:
+                            break
+                        if last_in_iteration + 100 < sink_payload_length:
+                            last_in_iteration += 100
+                        else:
+                            last_in_iteration += sink_payload_length - last_in_iteration
                 else:
                     package = get_devices_list_as_json(sink_payload)
                     self.__print_measurements(sink_payload)

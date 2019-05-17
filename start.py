@@ -146,6 +146,7 @@ def evaluate_parameters():
         for arg in args_provided:
             try:
                 config_file_paths.append(arg)
+                # todo: increase tag id for each added arg path i += 1 and add to db
             except ValueError:
                 raise ValueError
         start_emulation(config_file_paths)
