@@ -140,6 +140,15 @@ def evaluate_parameters():
         stress = DataBaseConnector(DB_CONFIGURATION)
         stress.create_fresh_db_hash(DB_HASH_FILE_PATH)
         del stress
+    elif sys.argv[1] == 'generate':
+        config_file_paths = []
+        args_provided = [sys.argv[2] for _ in range(0, int(sys.argv[3]))]
+        for arg in args_provided:
+            try:
+                config_file_paths.append(arg)
+            except ValueError:
+                raise ValueError
+        start_emulation(config_file_paths)
 
 
 if __name__ == '__main__':
