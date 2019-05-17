@@ -34,6 +34,7 @@ def plot_path():
         y.append(coord['y'])
     plt.figure()
     plt.plot(x, y, 'ro')
+    plt.axis('equal')
     plt.legend(['Cross Point Coordinates'])
     plt.title('Tag walk simulation path.')
     plt.show()

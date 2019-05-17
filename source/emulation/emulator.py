@@ -192,12 +192,10 @@ class Emulator:
                     Wrong NOISE parameter passed in to emulator
                     configuration should be integer or array
                     ''')
-            time_collecting_started = time.time()
             await self.__start_emitter_process(
                 worker,
                 socket,
                 sink_buffer,
-                time_collecting_started,
                 time_to_stop,
                 infinity_loop
             )
@@ -206,7 +204,6 @@ class Emulator:
     async def __start_emitter_process(
             self, worker,
             socket, sink_buffer,
-            time_collecting_started,
             time_to_stop, infinity_loop
     ):
         """
@@ -214,7 +211,6 @@ class Emulator:
         :param worker: worker unique number
         :param socket: socket object for worker connection
         :param sink_buffer: sink buffer object dedicated to particular worker
-        :param time_collecting_started: time when collecting to buffer process has started
         :param time_to_stop: time when worker should stop
         :param infinity_loop: flag, if True emitter will run forever, else will stop at time_to_stop
         :return: void
@@ -256,18 +252,14 @@ class Emulator:
                     print('t: ', measurement['did1'], ' a: ',
                           measurement['did2'], ' dist : ', measurement['dist'])
                 package = get_devices_list_as_json(sink_payload)
-                time_collecting_stopped = time.time()
-                time.sleep(
-                    self.__ws_emitting_time_step - (
-                        time_collecting_stopped - time_collecting_started
-                    )
-                )
-                time_collecting_started = time.time()
+                time.sleep(self.__ws_emitting_time_step / self.__number_of_sinks)
                 await socket.send(package)
                 dashed_printer(
                     'Floors with active tags {}'.format(self.__active_tags))
+                star_enclosed_print('Frame separation: {} s'
+                    .format(self.__ws_emitting_time_step / self.__number_of_sinks))
                 star_enclosed_print(
-                    'Number of measurements per one package sent: {}'.format(len(sink_payload)))
+                    'Number of measurements per one package (sink device) is {} distances'.format(len(sink_payload)))
                 payload_start_index += payload_sink_divisor
                 payload_finish_index += payload_sink_divisor
                 if WRITE_PAYLOAD_FRAMES:
@@ -276,7 +268,7 @@ class Emulator:
                         "time": time.time(),
                         "frame": package,
                         "frame_size_in_bytes": payload_size,
-                        "frame_time_separation": self.__ws_emitting_time_step
+                        "frame_time_separation": self.__ws_emitting_time_step / self.__number_of_sinks
                     })
                     if package_counter > 30:
                         Emulator.__write_package_to_file(packages_to_write)
