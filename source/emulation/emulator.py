@@ -246,15 +246,16 @@ class Emulator:
             payload_finish_index = payload_sink_divisor
             for _ in range(self.__number_of_sinks):
                 sink_payload = socket_payload[payload_start_index:payload_finish_index]
-                if len(sink_payload) > 100:
+                if len(sink_payload) > self.__global_buffer_size:
                     sink_payload_length = len(sink_payload)
                     first_in_iteration = 0
-                    last_in_iteration = 100
+                    last_in_iteration = self.__global_buffer_size
                     while sink_payload_length > 0:
                         sink_payload_part = sink_payload[first_in_iteration:last_in_iteration]
                         first_in_iteration = last_in_iteration
                         sink_payload_length = sink_payload_length - last_in_iteration
-                        last_in_iteration += sink_payload_length if sink_payload_length < 100 else 100
+                        last_in_iteration += sink_payload_length if sink_payload_length < self.__global_buffer_size \
+                            else self.__global_buffer_size
                         package = get_devices_list_as_json(sink_payload_part)
                         # self.__print_measurements(sink_payload_part)
                         star_enclosed_print(
@@ -282,7 +283,7 @@ class Emulator:
                         "frame_size_in_bytes": payload_size,
                         "frame_time_separation": self.__ws_emitting_time_step / self.__number_of_sinks
                     })
-                    if package_counter > 30:
+                    if package_counter > self.__global_buffer_size:
                         Emulator.__write_package_to_file(packages_to_write)
                         del packages_to_write[:]
                         package_counter = 0
