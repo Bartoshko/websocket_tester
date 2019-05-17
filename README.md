@@ -128,7 +128,7 @@ $ python3 system_load.py <path to performance log file *.txt>
 ### Configuration
 
 #### Path JSON
-Emulator gets configuration from file ./data/path.json - this file is required to set first before starting Emulator - Indoor Navi
+Tester gets configuration from file ./data/path.json - this file is required to set first before starting Tester - Indoor Navi
 As described bellow:
 
 Given example:
