@@ -1,6 +1,6 @@
-# Emulator
+# Websocket Simulator
 
-Emulates the behavior of hardware.
+Simulates the behavior of hardware working over websocket.
 
 ## Installing
 
@@ -92,7 +92,7 @@ then:
 $ run.sh
 ```
 
-# Run Emulator:
+# Run Tester:
 
 1. path is given:
 ```
@@ -155,7 +155,7 @@ Given example:
  
 ## Version
  
-This is version 0.0.1
+This is version 0.0.3
 
 ## Authors
 
