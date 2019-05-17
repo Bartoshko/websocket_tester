@@ -4,7 +4,7 @@ Simulates the behavior of hardware working over websocket.
 
 ## Installing
 
-### Please use python 3.5 or greater
+### Please use python 3.6 or greater
 
 Open terminal and go to Your project main catalogue.
 
@@ -23,6 +23,7 @@ $ virtualenv --version
 ```bash
 $ cd my_project_folder or ve
 ```
+
 ```bash
 $  virtualenv my_project or virtualenv ve
 ```
@@ -38,12 +39,13 @@ Install global in your system
 ```bash
 $ pip install psutil
 ```
+
 Install in virtual environment
 ```bash
 $ pip3 install -r requirements.txt
 ```
 
-6. For visualization 
+6. For visualization install dependencies
 
 $ apt install matplotlib
 
@@ -128,7 +130,7 @@ $ python3 system_load.py <path to performance log file *.txt>
 ### Configuration
 
 #### Path JSON
-Tester gets configuration from file ./data/path.json - this file is required to set first before starting Tester - Indoor Navi
+Tester gets configuration from file ./data/path.json - this file is required to set first before starting Emulator - Indoor Navi
 As described bellow:
 
 Given example:

@@ -15,16 +15,16 @@ def generate_path(points, speed, emiting_time_stamp):
             distance = np.linalg.norm(destination - start)
             local_vector = (destination - start) / distance * speed * emiting_time_stamp * 100
             coord = deepcopy(start)
-            coordinates.append(_coord_parse(coord))
+            coordinates.append(_coord_parse_as_object(coord))
             while _is_in_range(coord, start, destination):
                 coord[0] += local_vector[0]
                 coord[1] += local_vector[1]
-                coordinates.append(_coord_parse(coord))
+                coordinates.append(_coord_parse_as_object(coord))
             start = deepcopy(destination)
     return coordinates
 
 
-def _coord_parse(arr_coord):
+def _coord_parse_as_object(arr_coord):
     return {
         'x': arr_coord[0],
         'y': arr_coord[1],
