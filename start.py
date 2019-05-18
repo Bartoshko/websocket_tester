@@ -24,11 +24,11 @@ def start_emulation(config_file_path, repeating = False):
         coordinates = generate_path(
             coordinates_configs,
             speed, WS_EMITTING_TIME_STEP_IN_SECONDS)
-        rand_num = randint(0, len(coordinates))
-        print(rand_num)
-        coordinates = coordinates[rand_num:len(coordinates)] + coordinates[0:rand_num]
         if repeating:
+            rand_num = randint(0, len(coordinates))
+            coordinates = coordinates[rand_num:len(coordinates)] + coordinates[0:rand_num]
             path_configuration['tag_short_id'] += counter
+            counter += 1
         tag = {
             'closed': path_closed,
             'coordinates': coordinates,
@@ -36,7 +36,6 @@ def start_emulation(config_file_path, repeating = False):
             'floors': floor_numbers
         }
         tags.append(tag)
-        counter += 1
     number_of_tags_in_emulation = len(config_file_path)
     tags_verb_form = 'TAGS' if number_of_tags_in_emulation > 1 else 'TAG'
     dashed_printer('STARTING EMULATION FOR {} {}'.format(
