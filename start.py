@@ -1,4 +1,5 @@
 import sys
+from random import randint
 from source.stress.structure_generator import StructureGenerator
 from source.emulation.emulator import Emulator
 from source.emulation.emulator import StressEmulator
@@ -10,9 +11,10 @@ from source.utils.data_setter import get_settings
 from source.services.path_generator import generate_path
 
 
-def start_emulation(config_file_path):
+def start_emulation(config_file_path, repeating = False):
     """start emulating path with configs form configuration json file"""
     tags = []
+    counter = 0
     for path_item in config_file_path:
         path_configuration = get_settings(path_item)
         speed = path_configuration['path']['parameters']['speed']
@@ -22,6 +24,11 @@ def start_emulation(config_file_path):
         coordinates = generate_path(
             coordinates_configs,
             speed, WS_EMITTING_TIME_STEP_IN_SECONDS)
+        rand_num = randint(0, len(coordinates))
+        print(rand_num)
+        coordinates = coordinates[rand_num:len(coordinates)] + coordinates[0:rand_num]
+        if repeating:
+            path_configuration['tag_short_id'] += counter
         tag = {
             'closed': path_closed,
             'coordinates': coordinates,
@@ -29,6 +36,7 @@ def start_emulation(config_file_path):
             'floors': floor_numbers
         }
         tags.append(tag)
+        counter += 1
     number_of_tags_in_emulation = len(config_file_path)
     tags_verb_form = 'TAGS' if number_of_tags_in_emulation > 1 else 'TAG'
     dashed_printer('STARTING EMULATION FOR {} {}'.format(
@@ -149,7 +157,7 @@ def evaluate_parameters():
                 # todo: increase tag id for each added arg path i += 1 and add to db
             except ValueError:
                 raise ValueError
-        start_emulation(config_file_paths)
+        start_emulation(config_file_paths, True)
 
 
 if __name__ == '__main__':
