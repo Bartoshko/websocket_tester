@@ -3,8 +3,9 @@ from copy import deepcopy
 import numpy as np
 
 
-def generate_path(points, speed, emiting_time_stamp):
+def generate_path(points, speed, emitting_time_stamp):
     coordinates = []
+    km_h_to_cm_s_scalar = 27.7778
     first = None
     for point in points:
         if first == None:
@@ -13,7 +14,7 @@ def generate_path(points, speed, emiting_time_stamp):
         else:
             destination = np.array([point['x'], point['y']])
             distance = np.linalg.norm(destination - start)
-            local_vector = (destination - start) / distance * speed * emiting_time_stamp * 100
+            local_vector = (destination - start) * speed * km_h_to_cm_s_scalar * emitting_time_stamp / distance
             coord = deepcopy(start)
             coordinates.append(_coord_parse_as_object(coord))
             while _is_in_range(coord, start, destination):
