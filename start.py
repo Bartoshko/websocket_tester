@@ -21,14 +21,16 @@ def start_emulation(config_file_path, repeating = False):
         path_closed = path_configuration['path']['parameters']['closed']
         coordinates_configs = path_configuration['path']['coordinates']
         floor_numbers = path_configuration['floors']
+        if path_closed:
+            coordinates_configs.append(coordinates_configs[0])
+        if repeating:
+            rand_num = randint(0, len(coordinates_configs) - 1)
+            coordinates_configs = coordinates_configs[rand_num:len(coordinates_configs) - 1] + coordinates_configs[0:rand_num]
+            path_configuration['tag_short_id'] += counter
+            counter += 1
         coordinates = generate_path(
             coordinates_configs,
             speed, WS_EMITTING_TIME_STEP_IN_SECONDS)
-        if repeating:
-            rand_num = randint(0, len(coordinates))
-            coordinates = coordinates[rand_num:len(coordinates)] + coordinates[0:rand_num]
-            path_configuration['tag_short_id'] += counter
-            counter += 1
         tag = {
             'closed': path_closed,
             'coordinates': coordinates,
@@ -153,7 +155,6 @@ def evaluate_parameters():
         for arg in args_provided:
             try:
                 config_file_paths.append(arg)
-                # todo: increase tag id for each added arg path i += 1 and add to db
             except ValueError:
                 raise ValueError
         start_emulation(config_file_paths, True)

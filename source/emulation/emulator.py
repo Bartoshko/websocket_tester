@@ -266,7 +266,7 @@ class Emulator:
                             last_in_iteration += sink_payload_length - last_in_iteration
                 else:
                     package = get_devices_list_as_json(sink_payload)
-                    self.__print_measurements(sink_payload)
+                    # self.__print_measurements(sink_payload)
                     star_enclosed_print(
                         'Number of measurements per one package (sink device) is {} distances'.format(len(sink_payload)))
                     await socket.send(package)
